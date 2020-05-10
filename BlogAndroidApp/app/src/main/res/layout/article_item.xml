@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/articlePicture"
+            android:layout_width="580dp"
+            android:layout_height="326dp"/>
+        <ImageView
+            android:id="@+id/playPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/play_icon"/>
+        <ImageView
+            android:id="@+id/sharingPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/share_icon"/>
+        <ImageView
+            android:id="@+id/datePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/articlePicture"
+            android:layout_alignBottom="@+id/articlePicture"
+            android:src="@mipmap/date_icon"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/articleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        tools:text="15.05.: Kriegserklärung gegen die Bürger!!!"/>
+
+</LinearLayout>
