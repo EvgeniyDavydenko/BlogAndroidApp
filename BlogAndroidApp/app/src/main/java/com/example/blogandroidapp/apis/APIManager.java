@@ -20,7 +20,7 @@ public class APIManager {
 
     public Observable<ArticleList> getSchrangTV() {
         APIInterface apiInterface = NetworkService.getInstance().getAPIInterface();
-        return apiInterface.getArticles(1, 0, 1, "desc")
+        return apiInterface.getArticles(1, 0, 10, "desc")
                 .subscribeOn(Schedulers.io());
     }
 

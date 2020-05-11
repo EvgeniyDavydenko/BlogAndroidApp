@@ -1,19 +1,14 @@
 package com.example.blogandroidapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.blogandroidapp.R;
-import com.example.blogandroidapp.apis.APIManager;
-import com.example.blogandroidapp.data.datamodel.Article;
-import com.example.blogandroidapp.data.datamodel.ArticleList;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import com.example.blogandroidapp.fragments.ArticlesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,21 +16,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loadArticles();
+        initView();
         Log.d("OnCreate","Finished");
     }
 
-    private void loadArticles() {
-        List<Article> articleList = new ArrayList<>();
-        APIManager apiManager = APIManager.getInstance();
-        apiManager.getSchrangTV()
-                .map(ArticleList::getArticles)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                            articleList.addAll(result);
-                            Log.d("Loading Complete", "Articles list size " + articleList.size());
+    private void initView() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                        },
-                        error -> Log.d("Loading Articles Error", "Error Message" + error.getMessage()));
+        ArticlesFragment articlesFragment = ArticlesFragment.newInstance();
+        fragmentTransaction.add(R.id.fragment_container, articlesFragment);
+        fragmentTransaction.commit();
     }
 }
