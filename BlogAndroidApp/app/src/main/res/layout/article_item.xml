@@ -26,20 +26,34 @@
             android:id="@+id/sharingPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_alignTop="@+id/articlePicture"
             android:layout_alignEnd="@+id/articlePicture"
             android:src="@mipmap/share_icon"/>
-        <ImageView
-            android:id="@+id/datePicture"
+<!--        <ImageView-->
+<!--            android:id="@+id/datePicture"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingEnd="-8dp"-->
+<!--            android:layout_marginBottom="-8dp"-->
+<!--            android:layout_alignEnd="@+id/articlePicture"-->
+<!--            android:layout_alignBottom="@+id/articlePicture"-->
+<!--            android:src="@mipmap/date_icon"/>-->
+
+        <TextView
+            android:id="@+id/dateArticle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="-8dp"
-            android:layout_marginBottom="-8dp"
             android:layout_alignEnd="@+id/articlePicture"
             android:layout_alignBottom="@+id/articlePicture"
-            android:src="@mipmap/date_icon"/>
+            android:paddingStart="16dp"
+            android:layout_marginEnd="-8dp"
+            android:layout_marginBottom="-8dp"
+            android:textColor="@color/design_default_color_background"
+            android:gravity="center"
+            android:background="@mipmap/date_icon"
+            tools:text="17.01.19"/>
     </RelativeLayout>
 
     <TextView
