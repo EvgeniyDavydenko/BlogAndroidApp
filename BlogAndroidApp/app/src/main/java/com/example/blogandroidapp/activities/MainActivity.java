@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.blogandroidapp.R;
-import com.example.blogandroidapp.fragments.ArticlesFragment;
+import com.example.blogandroidapp.mvp.ui.articles.ArticlesFragment;
 
 public class MainActivity extends AppCompatActivity {
 

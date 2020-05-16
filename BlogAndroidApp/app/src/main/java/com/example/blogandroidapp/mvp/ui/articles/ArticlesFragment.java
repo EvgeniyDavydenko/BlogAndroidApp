@@ -1,4 +1,4 @@
-package com.example.blogandroidapp.fragments;
+package com.example.blogandroidapp.mvp.ui.articles;
 
 import android.os.Bundle;
 
@@ -14,10 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.blogandroidapp.R;
-import com.example.blogandroidapp.adapters.ArticlesListAdapter;
 import com.example.blogandroidapp.apis.APIManager;
 import com.example.blogandroidapp.data.datamodel.Article;
 import com.example.blogandroidapp.data.datamodel.ArticleList;
+import com.example.blogandroidapp.mvp.BaseMvpFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Use the {@link ArticlesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArticlesFragment extends Fragment {
+public class ArticlesFragment extends BaseMvpFragment<ArticlesContract.Presenter, ArticlesContract.View> implements ArticlesContract.View {
 
     private RecyclerView recyclerView;
     private View view;
@@ -47,6 +47,16 @@ public class ArticlesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public ArticlesContract.Presenter providePresenter() {
+        return new ArticlesPresenter();
+    }
+
+    @Override
+    public ArticlesContract.View provideView() {
+        return this;
     }
 
     @Override
@@ -68,21 +78,10 @@ public class ArticlesFragment extends Fragment {
         articlesListAdapter = new ArticlesListAdapter(getContext());
         recyclerView.setAdapter(articlesListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        loadArticles();
     }
 
-    private void loadArticles() {
-        List<Article> articleList = new ArrayList<>();
-        APIManager apiManager = APIManager.getInstance();
-        apiManager.getSchrangTV()
-                .map(ArticleList::getArticles)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                            articleList.addAll(result);
-                            articlesListAdapter.setArticlesData(result);
-                            Log.d("Loading Complete", "Articles list size " + articleList.size());
-
-                        },
-                        error -> Log.d("Loading Articles Error", "Error Message" + error.getMessage()));
+    @Override
+    public void showArticles(ArticleList articleList) {
+        articlesListAdapter.setArticlesData(articleList);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.blogandroidapp.adapters;
+package com.example.blogandroidapp.mvp.ui.articles;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.blogandroidapp.R;
 import com.example.blogandroidapp.data.datamodel.Article;
+import com.example.blogandroidapp.data.datamodel.ArticleList;
 import com.example.blogandroidapp.data.datamodel.Header;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -85,8 +86,8 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void setArticlesData(List<Article> articleList) {
-        this.articleList.addAll(articleList);
+    public void setArticlesData(ArticleList articlesData) {
+        this.articleList.addAll(articlesData.getArticles());
         header = new Header(articleList.get(0).getCategory().getId(), articleList.get(0).getCategory().getTitle());
         notifyDataSetChanged();
     }
