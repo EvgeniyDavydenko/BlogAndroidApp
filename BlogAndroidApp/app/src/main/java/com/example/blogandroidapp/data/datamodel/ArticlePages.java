@@ -3,7 +3,7 @@ package com.example.blogandroidapp.data.datamodel;
 import java.io.Serializable;
 import java.util.List;
 
-public class ArticleList implements Serializable {
+public class ArticlePages implements Serializable {
     private List<Article> articles;
     private Pages pages;
 

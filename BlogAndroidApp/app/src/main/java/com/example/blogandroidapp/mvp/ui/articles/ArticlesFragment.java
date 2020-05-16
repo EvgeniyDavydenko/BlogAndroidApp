@@ -8,21 +8,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.blogandroidapp.R;
-import com.example.blogandroidapp.apis.APIManager;
-import com.example.blogandroidapp.data.datamodel.Article;
-import com.example.blogandroidapp.data.datamodel.ArticleList;
+import com.example.blogandroidapp.data.datamodel.ArticlePages;
 import com.example.blogandroidapp.mvp.BaseMvpFragment;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,13 +67,17 @@ public class ArticlesFragment extends BaseMvpFragment<ArticlesContract.Presenter
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recyclerView);
-        articlesListAdapter = new ArticlesListAdapter(getContext());
+        articlesListAdapter = new ArticlesListAdapter(getContext(), this::loadNextDataPage);
         recyclerView.setAdapter(articlesListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void showArticles(ArticleList articleList) {
-        articlesListAdapter.setArticlesData(articleList);
+    public void showArticles(ArticlePages articlePages) {
+        articlesListAdapter.setArticlesData(articlePages);
+    }
+
+    private void loadNextDataPage(int nextPageNumber){
+        presenter.loadArticles(nextPageNumber);
     }
 }

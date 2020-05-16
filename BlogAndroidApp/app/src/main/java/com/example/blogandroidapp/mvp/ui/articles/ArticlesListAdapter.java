@@ -14,9 +14,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.blogandroidapp.R;
 import com.example.blogandroidapp.data.datamodel.Article;
-import com.example.blogandroidapp.data.datamodel.ArticleList;
+import com.example.blogandroidapp.data.datamodel.ArticlePages;
 import com.example.blogandroidapp.data.datamodel.Header;
-import com.google.android.material.tabs.TabItem;
+import com.example.blogandroidapp.interfaces.IPaginationListener;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.DateFormat;
@@ -31,14 +31,18 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_ITEM = 1;
 
     private LayoutInflater layoutInflater;
+    private IPaginationListener paginationListener;
+    private ArticlePages articlePages;
     private List<Article> articleList = new ArrayList<>();
     private Header header;
     private Context context;
+    private int dataPageNumber = 0;
 
 
-    public ArticlesListAdapter(Context context) {
+    public ArticlesListAdapter(Context context, IPaginationListener paginationListener) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
+        this.paginationListener = paginationListener;
     }
 
     @Override
@@ -84,10 +88,16 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ArticleViewHolder) holder).articleTitle.setText(currentItem.getTitle());
             ((ArticleViewHolder) holder).dateArticle.setText(convertTimeStampToDate(currentItem.getDateCreated()));
         }
+        if (position == getItemCount() - 1
+                && articlePages != null
+                && dataPageNumber != articlePages.getPages().getLast()) {
+            paginationListener.onLoadNext(dataPageNumber++);
+        }
     }
 
-    public void setArticlesData(ArticleList articlesData) {
-        this.articleList.addAll(articlesData.getArticles());
+    public void setArticlesData(ArticlePages articlesPages) {
+        this.articlePages = articlesPages;
+        this.articleList.addAll(articlesPages.getArticles());
         header = new Header(articleList.get(0).getCategory().getId(), articleList.get(0).getCategory().getTitle());
         notifyDataSetChanged();
     }
