@@ -4,17 +4,18 @@ import android.util.Log;
 
 import com.example.blogandroidapp.apis.APIManager;
 import com.example.blogandroidapp.mvp.BaseMvpPresenter;
+import com.example.blogandroidapp.mvp.ui.articles.ArticlesContract.*;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class ArticlesPresenter extends BaseMvpPresenter<ArticlesContract.View> implements ArticlesContract.Presenter {
+public class ArticlesPresenter extends BaseMvpPresenter<View> implements Presenter {
 
     private final int dataPerPage = 10;
     private final int firstDataPageNumber = 0;
     private final String dataSortOder = "desc";
 
     @Override
-    public void onAttach(ArticlesContract.View view) {
+    public void onAttach(View view) {
         super.onAttach(view);
         loadArticles(firstDataPageNumber);
     }

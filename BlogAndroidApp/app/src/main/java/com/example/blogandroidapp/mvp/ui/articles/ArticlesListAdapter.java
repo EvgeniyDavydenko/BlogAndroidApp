@@ -16,13 +16,12 @@ import com.example.blogandroidapp.R;
 import com.example.blogandroidapp.data.datamodel.Article;
 import com.example.blogandroidapp.data.datamodel.ArticlePages;
 import com.example.blogandroidapp.data.datamodel.Header;
+import com.example.blogandroidapp.interfaces.IListItemSelected;
 import com.example.blogandroidapp.interfaces.IPaginationListener;
+import com.example.blogandroidapp.utils.DataUtils;
 import com.google.android.material.tabs.TabLayout;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,6 +31,7 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private LayoutInflater layoutInflater;
     private IPaginationListener paginationListener;
+    private IListItemSelected<Article> itemClickListener;
     private ArticlePages articlePages;
     private List<Article> articleList = new ArrayList<>();
     private Header header;
@@ -39,10 +39,11 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int dataPageNumber = 0;
 
 
-    public ArticlesListAdapter(Context context, IPaginationListener paginationListener) {
+    public ArticlesListAdapter(Context context, IPaginationListener paginationListener, IListItemSelected<Article> itemClickListener) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.paginationListener = paginationListener;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -86,7 +87,7 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .into(((ArticleViewHolder) holder).articlePicture);
 
             ((ArticleViewHolder) holder).articleTitle.setText(currentItem.getTitle());
-            ((ArticleViewHolder) holder).dateArticle.setText(convertTimeStampToDate(currentItem.getDateCreated()));
+            ((ArticleViewHolder) holder).dateArticle.setText(DataUtils.ConvertTimeStampToDate(currentItem.getDateCreated()));
         }
         if (position == getItemCount() - 1
                 && articlePages != null
@@ -100,13 +101,6 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.articleList.addAll(articlesPages.getArticles());
         header = new Header(articleList.get(0).getCategory().getId(), articleList.get(0).getCategory().getTitle());
         notifyDataSetChanged();
-    }
-
-    private String convertTimeStampToDate(String dateTimeStamp){
-        long timeStamp = Long.parseLong(dateTimeStamp);
-        Date date = new Date(timeStamp * 1000);
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
-        return dateFormat.format(date);
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -125,11 +119,16 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView articleTitle;
         private TextView dateArticle;
 
-        public ArticleViewHolder(View itemView) {
+        private ArticleViewHolder(View itemView) {
             super(itemView);
             articlePicture = itemView.findViewById(R.id.articlePicture);
             articleTitle = itemView.findViewById(R.id.articleTitle);
             dateArticle = itemView.findViewById(R.id.dateArticle);
+            itemView.setOnClickListener(v -> {
+                if (articleList.get(getAdapterPosition()) != null) {
+                    itemClickListener.onItemSelected(articleList.get(getAdapterPosition() - 1));
+                }
+            });
         }
     }
 

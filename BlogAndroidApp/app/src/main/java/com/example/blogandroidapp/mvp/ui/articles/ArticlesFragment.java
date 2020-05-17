@@ -1,5 +1,6 @@
 package com.example.blogandroidapp.mvp.ui.articles;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.blogandroidapp.R;
+import com.example.blogandroidapp.data.datamodel.Article;
 import com.example.blogandroidapp.data.datamodel.ArticlePages;
 import com.example.blogandroidapp.mvp.BaseMvpFragment;
+import com.example.blogandroidapp.mvp.ui.articlesdetail.ArticleDetailActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +70,7 @@ public class ArticlesFragment extends BaseMvpFragment<ArticlesContract.Presenter
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recyclerView);
-        articlesListAdapter = new ArticlesListAdapter(getContext(), this::loadNextDataPage);
+        articlesListAdapter = new ArticlesListAdapter(getContext(), this::loadNextDataPage, this::showArticleDetail);
         recyclerView.setAdapter(articlesListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -79,5 +82,10 @@ public class ArticlesFragment extends BaseMvpFragment<ArticlesContract.Presenter
 
     private void loadNextDataPage(int nextPageNumber){
         presenter.loadArticles(nextPageNumber);
+    }
+
+    private void showArticleDetail(Article article) {
+        Intent intent = ArticleDetailActivity.getLauncherIntent(getContext(), article);
+        startActivity(intent);
     }
 }
