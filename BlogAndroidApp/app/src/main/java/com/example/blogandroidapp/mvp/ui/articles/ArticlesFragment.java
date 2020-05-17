@@ -70,18 +70,27 @@ public class ArticlesFragment extends BaseMvpFragment<ArticlesContract.Presenter
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recyclerView);
-        articlesListAdapter = new ArticlesListAdapter(getContext(), this::loadNextDataPage, this::showArticleDetail);
+        articlesListAdapter = new ArticlesListAdapter(getContext(), this::loadNextDataPage, this::dataCategoryChanged, this::showArticleDetail);
         recyclerView.setAdapter(articlesListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    @Override
-    public void showArticles(ArticlePages articlePages) {
-        articlesListAdapter.setArticlesData(articlePages);
+    private void loadNextDataPage(int nextPageNumber){
+        presenter.loadNextArticlesDataPage(nextPageNumber);
     }
 
-    private void loadNextDataPage(int nextPageNumber){
-        presenter.loadArticles(nextPageNumber);
+    private void dataCategoryChanged(int categoryID) {
+        presenter.loadFirstArticlesDataPage(categoryID);
+    }
+
+    @Override
+    public void showFirstArticlesDataPage(ArticlePages articlePages) {
+        articlesListAdapter.setFirstArticlesData(articlePages);
+    }
+
+    @Override
+    public void showNextArticlesDataPAge(ArticlePages articlePages) {
+        articlesListAdapter.setNextArticlesData(articlePages);
     }
 
     private void showArticleDetail(Article article) {

@@ -6,10 +6,12 @@ import com.example.blogandroidapp.mvp.IView;
 
 public interface ArticlesContract {
     interface Presenter extends IPresenter<View>{
-        void loadArticles(int nextPageNumber);
+        void loadFirstArticlesDataPage(int articlesDataCategory);
+        void loadNextArticlesDataPage(int nextPageNumber);
     }
 
     interface View extends IView{
-        void showArticles(ArticlePages articlePages);
+        void showFirstArticlesDataPage(ArticlePages articlePages);
+        void showNextArticlesDataPAge(ArticlePages articlePages);
     }
 }

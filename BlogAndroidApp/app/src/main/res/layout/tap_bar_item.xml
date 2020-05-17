@@ -8,8 +8,8 @@
         android:id="@+id/headerTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
         android:layout_gravity="top"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabIndicator="@color/colorTransparent"
         app:tabTextColor="@color/colorPrimaryDark"
         app:tabMode="fixed"
@@ -21,20 +21,20 @@
             android:layout_height="wrap_content"
             android:background="@color/design_default_color_error"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:text="TabItem 1" />
+            android:text="@string/SchrangTV" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/secondTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:text="TabItem 2" />
+            android:text="@string/Talk" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/thirdTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TabItem 3" />
+            android:text="@string/Spirit" />
 
     </com.google.android.material.tabs.TabLayout>
 </RelativeLayout>

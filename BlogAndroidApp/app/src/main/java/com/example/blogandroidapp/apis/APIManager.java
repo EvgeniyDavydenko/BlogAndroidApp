@@ -18,11 +18,9 @@ public class APIManager {
     }
 
 
-    public Observable<ArticlePages> getSchrangTV(int pageNumber, int dataPerPage, String dataSortOrder) {
+    public Observable<ArticlePages> loadArticlesData(int categoryID, int pageNumber, int dataPerPage, String dataSortOrder) {
         APIInterface apiInterface = NetworkService.getInstance().getAPIInterface();
-        return apiInterface.getArticles(1, pageNumber, dataPerPage, dataSortOrder)
+        return apiInterface.getArticles(categoryID, pageNumber, dataPerPage, dataSortOrder)
                 .subscribeOn(Schedulers.io());
     }
-
-
 }

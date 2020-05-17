@@ -13,21 +13,39 @@ public class ArticlesPresenter extends BaseMvpPresenter<View> implements Present
     private final int dataPerPage = 10;
     private final int firstDataPageNumber = 0;
     private final String dataSortOder = "desc";
+    private int currentArticlesDataCategoryID = 1;
 
     @Override
     public void onAttach(View view) {
         super.onAttach(view);
-        loadArticles(firstDataPageNumber);
+        loadFirstArticlesDataPage(currentArticlesDataCategoryID);
+//        loadArticles(firstDataPageNumber);
     }
 
     @Override
-    public void loadArticles(int nextPageNumber) {
+    public void loadFirstArticlesDataPage(int articlesDataCategory) {
+        currentArticlesDataCategoryID = articlesDataCategory;
         APIManager apiManager = APIManager.getInstance();
-        apiManager.getSchrangTV(nextPageNumber, dataPerPage, dataSortOder)
+        apiManager.loadArticlesData(currentArticlesDataCategoryID, firstDataPageNumber, dataPerPage, dataSortOder)
 //                .map(ArticleList::getArticles)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                            view.showArticles(result);
+                            view.showFirstArticlesDataPage(result);
+//                            articlesListAdapter.setArticlesData(result);
+                            Log.d("Loading Complete", "Articles list size " + result.getArticles().size());
+
+                        },
+                        error -> Log.d("Loading Articles Error", "Error Message" + error.getMessage()));
+    }
+
+    @Override
+    public void loadNextArticlesDataPage(int nextPageNumber) {
+        APIManager apiManager = APIManager.getInstance();
+        apiManager.loadArticlesData(currentArticlesDataCategoryID, nextPageNumber, dataPerPage, dataSortOder)
+//                .map(ArticleList::getArticles)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                            view.showNextArticlesDataPAge(result);
 //                            articlesListAdapter.setArticlesData(result);
                             Log.d("Loading Complete", "Articles list size " + result.getArticles().size());
 

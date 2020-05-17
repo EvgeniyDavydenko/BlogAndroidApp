@@ -16,6 +16,7 @@ import com.example.blogandroidapp.R;
 import com.example.blogandroidapp.data.datamodel.Article;
 import com.example.blogandroidapp.data.datamodel.ArticlePages;
 import com.example.blogandroidapp.data.datamodel.Header;
+import com.example.blogandroidapp.interfaces.IHeaderTabSelected;
 import com.example.blogandroidapp.interfaces.IListItemSelected;
 import com.example.blogandroidapp.interfaces.IPaginationListener;
 import com.example.blogandroidapp.utils.DataUtils;
@@ -26,11 +27,15 @@ import java.util.List;
 
 public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
+    private final int TYPE_HEADER = 0;
+    private final int TYPE_ITEM = 100;
+    private final int SCHRANG_TV_DATA_CATEGORY = 1;
+    private final int TALK_DATA_CATEGORY = 2;
+    private final int SPIRIT_DATA_CATEGORY = 3;
 
     private LayoutInflater layoutInflater;
     private IPaginationListener paginationListener;
+    private IHeaderTabSelected<Integer> headerTabListener;
     private IListItemSelected<Article> itemClickListener;
     private ArticlePages articlePages;
     private List<Article> articleList = new ArrayList<>();
@@ -39,10 +44,11 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int dataPageNumber = 0;
 
 
-    public ArticlesListAdapter(Context context, IPaginationListener paginationListener, IListItemSelected<Article> itemClickListener) {
+    public ArticlesListAdapter(Context context, IPaginationListener paginationListener, IHeaderTabSelected<Integer> headerTabListener, IListItemSelected<Article> itemClickListener) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.paginationListener = paginationListener;
+        this.headerTabListener = headerTabListener;
         this.itemClickListener = itemClickListener;
     }
 
@@ -96,10 +102,17 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void setArticlesData(ArticlePages articlesPages) {
+    public void setFirstArticlesData(ArticlePages articlesPages) {
         this.articlePages = articlesPages;
-        this.articleList.addAll(articlesPages.getArticles());
-        header = new Header(articleList.get(0).getCategory().getId(), articleList.get(0).getCategory().getTitle());
+        articleList.clear();
+        articleList.addAll(articlesPages.getArticles());
+//        header = new Header(articleList.get(0).getCategory().getId(), articleList.get(0).getCategory().getTitle());
+        notifyDataSetChanged();
+    }
+
+    public void setNextArticlesData(ArticlePages articlesPages) {
+        this.articlePages = articlesPages;
+        articleList.addAll(articlesPages.getArticles());
         notifyDataSetChanged();
     }
 
@@ -110,6 +123,32 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public HeaderViewHolder(View itemView) {
             super(itemView);
             headerTabs = itemView.findViewById(R.id.headerTabs);
+            headerTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    switch (tab.getPosition()){
+                        case 0:
+                            headerTabListener.onTabSelected(SCHRANG_TV_DATA_CATEGORY);
+                            break;
+                        case 1:
+                            headerTabListener.onTabSelected(TALK_DATA_CATEGORY);
+                            break;
+                        case 2:
+                            headerTabListener.onTabSelected(SPIRIT_DATA_CATEGORY);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
         }
     }
 

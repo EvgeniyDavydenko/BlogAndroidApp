@@ -3,4 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="SchrangTV">Schrang TV</string>
+    <string name="Talk">Talk</string>
+    <string name="Spirit">Spirit</string>
 </resources>
